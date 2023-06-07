@@ -2,7 +2,7 @@ import json
 
 alunos = {}
 
-with open("Alunos/alunos.json", "r") as file:
+with open("Menu_principal/Alunos/alunos.json", "r") as file:
     alunos = json.load(file)
     
 def menu_aluno():
@@ -24,15 +24,12 @@ def cadastrar_aluno():
     if nome in alunos:
         print("Este aluno já existe!")
         
-        
     CPF = input("Digite o seu CPF: ")
     
     if len(CPF) == 11:
         CPF = f'{CPF[:3]}.{CPF[3:6]}.{CPF[6:9]}.{CPF[9:11]}'
         print(CPF)
     
-    #senha = CPF
-    #alunos[nome] = senha
     
     maior = 0
     
@@ -42,6 +39,8 @@ def cadastrar_aluno():
 
     print(maior)
     
+    alunos[nome] = {'Matricula': maior + 1, "Senha": CPF, "CPF": CPF}
+
     continuar = int(input("Deseja continuar cadastrando alunos: \n[1] Sim \n[2] Não \nResp: "))
     if continuar == 1:
         cadastrar_aluno()
@@ -74,10 +73,19 @@ def editar_aluno():
 
         alunos[novo_nome] = alunos[buscar]
         del alunos[buscar]
+    elif edicao == 2:
+        nova_matricula = int(input("Digite a sua matrícula: "))
+        alunos[buscar]['Matricula'] = nova_matricula
     elif edicao == 3 :
         nova_senha = input("Digite a sua senha: ")
         alunos[buscar]["Senha"] = nova_senha
-                
+    
+    
+    repetir = int(input("Deseja continuar editando os alunos: \n[1] Sim \n[2] Não \nResp: "))
+    if repetir == 1:
+        editar_aluno()
+    else:
+        menu_aluno()
                 
             
 def deletar_aluno():
